@@ -65,7 +65,7 @@ namespace clock
         //指定時間をtimeTextBoxに記載
         private void sync_Click(object sender, EventArgs e)
         {
-            timeTextBox.Text = string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds);
+            nowsync.Text = string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds);
             syn.Add(string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds));
             //synctime.Text += System.Environment.NewLine+string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds);
         }
@@ -80,6 +80,11 @@ namespace clock
             {
                 synctime.Text += System.Environment.NewLine+s;
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            timeTextBox.Text = string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds);
         }
     }
 }

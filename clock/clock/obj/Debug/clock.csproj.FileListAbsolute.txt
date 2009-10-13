@@ -14,3 +14,11 @@ C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\clock\clock\obj\Debug\Re
 C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\clock\clock\obj\Debug\clock.Form1.resources
 C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\clock\clock\obj\Debug\clock.Properties.Resources.resources
 C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\clock\clock\obj\Debug\clock.csproj.GenerateResource.Cache
+C:\Users\matuyosi\Desktop\ヴァージョン\trunk\clock\clock\obj\Debug\clock.exe
+C:\Users\matuyosi\Desktop\ヴァージョン\trunk\clock\clock\obj\Debug\clock.pdb
+C:\Users\matuyosi\Desktop\ヴァージョン\trunk\clock\clock\bin\Debug\clock.exe
+C:\Users\matuyosi\Desktop\ヴァージョン\trunk\clock\clock\bin\Debug\clock.pdb
+C:\Users\matuyosi\Desktop\ヴァージョン\trunk\clock\clock\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\matuyosi\Desktop\ヴァージョン\trunk\clock\clock\obj\Debug\clock.Form1.resources
+C:\Users\matuyosi\Desktop\ヴァージョン\trunk\clock\clock\obj\Debug\clock.Properties.Resources.resources
+C:\Users\matuyosi\Desktop\ヴァージョン\trunk\clock\clock\obj\Debug\clock.csproj.GenerateResource.Cache
