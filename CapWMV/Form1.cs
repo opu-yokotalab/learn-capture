@@ -27,10 +27,8 @@ namespace AsfFilter
         private TextBox timeTextBox;
         private TextBox synctime;
         private Panel panelPreview;
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        private Timer timer1;
+        private System.ComponentModel.IContainer components;
 
 
 		public Form1()
@@ -77,6 +75,7 @@ namespace AsfFilter
 		/// </summary>
 		private void InitializeComponent()
 		{
+            this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -85,6 +84,7 @@ namespace AsfFilter
             this.timeTextBox = new System.Windows.Forms.TextBox();
             this.synctime = new System.Windows.Forms.TextBox();
             this.panelPreview = new System.Windows.Forms.Panel();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // button1
@@ -156,7 +156,6 @@ namespace AsfFilter
             this.synctime.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.synctime.Size = new System.Drawing.Size(256, 117);
             this.synctime.TabIndex = 11;
-            this.synctime.Text = "00:00:00:000";
             // 
             // panelPreview
             // 
@@ -164,6 +163,12 @@ namespace AsfFilter
             this.panelPreview.Name = "panelPreview";
             this.panelPreview.Size = new System.Drawing.Size(268, 256);
             this.panelPreview.TabIndex = 12;
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 1;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
@@ -237,7 +242,7 @@ namespace AsfFilter
 
         private void sync_Click(object sender, EventArgs e)
         {
-            timeTextBox.Text = string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds);
+            synctime.Text += System.Environment.NewLine+string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds);
             syn.Add(string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds));
         }
 
@@ -246,10 +251,15 @@ namespace AsfFilter
             output.Enabled = false;
             MyStopWatch.Reset();
             timeTextBox.Text = ("00:00:00:000");
-            foreach (string s in syn)
-            {
-                synctime.Text += System.Environment.NewLine + s;
-            }
+            //foreach (string s in syn)
+            //{
+            //    synctime.Text += System.Environment.NewLine + s;
+            //}
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            timeTextBox.Text = string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds);
         }
 	}
 }
