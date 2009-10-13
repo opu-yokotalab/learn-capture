@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="CapWMV-2005">
+</Property><Property Name="ソリューション ファイル" Value="C:\Users\matuyosi\Desktop\DirectShowSamples-2007-July\Samples\Capture\CapWMV\CapWMV-2005.sln">
+</Property><Property Name="Date" Value="2009年10月1日">
+</Property><Property Name="Time" Value="8:54">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="CapWMV-2005.sln" Description="ファイルは正常に C:\Users\matuyosi\Desktop\DirectShowSamples-2007-July\Samples\Capture\CapWMV\Backup\CapWMV-2005.sln としてバックアップされました。">
+</Event><Event ErrorLevel="0" Project="CapWMV-2005" Source="CapWMV-2005.csproj" Description="プロジェクト ファイルは正常に C:\Users\matuyosi\Desktop\DirectShowSamples-2007-July\Samples\Capture\CapWMV\Backup\CapWMV-2005.csproj としてバックアップされました。">
+</Event><Event ErrorLevel="0" Project="CapWMV-2005" Source="AssemblyInfo.cs" Description="ファイルは正常に C:\Users\matuyosi\Desktop\DirectShowSamples-2007-July\Samples\Capture\CapWMV\Backup\AssemblyInfo.cs としてバックアップされました。">
+</Event><Event ErrorLevel="0" Project="CapWMV-2005" Source="Capture.cs" Description="ファイルは正常に C:\Users\matuyosi\Desktop\DirectShowSamples-2007-July\Samples\Capture\CapWMV\Backup\Capture.cs としてバックアップされました。">
+</Event><Event ErrorLevel="0" Project="CapWMV-2005" Source="Form1.cs" Description="ファイルは正常に C:\Users\matuyosi\Desktop\DirectShowSamples-2007-July\Samples\Capture\CapWMV\Backup\Form1.cs としてバックアップされました。">
+</Event><Event ErrorLevel="0" Project="CapWMV-2005" Source="App.ico" Description="ファイルは正常に C:\Users\matuyosi\Desktop\DirectShowSamples-2007-July\Samples\Capture\CapWMV\Backup\App.ico としてバックアップされました。">
+</Event><Event ErrorLevel="0" Project="CapWMV-2005" Source="readme.txt" Description="ファイルは正常に C:\Users\matuyosi\Desktop\DirectShowSamples-2007-July\Samples\Capture\CapWMV\Backup\readme.txt としてバックアップされました。">
+</Event><Event ErrorLevel="0" Project="CapWMV-2005" Source="Form1.resx" Description="ファイルは正常に C:\Users\matuyosi\Desktop\DirectShowSamples-2007-July\Samples\Capture\CapWMV\Backup\Form1.resx としてバックアップされました。">
+</Event><Event ErrorLevel="0" Project="CapWMV-2005" Source="CapWMV-2005.csproj" Description="プロジェクトは正常に変換されました。">
+</Event><Event ErrorLevel="3" Project="CapWMV-2005" Source="CapWMV-2005.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="CapWMV-2005.sln" Description="ソリューションは正常に変換されました">
+</Event><Event ErrorLevel="3" Project="" Source="CapWMV-2005.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="CapWMV-2005" Source="CapWMV-2005.csproj" Description="スキャンが完了しました: プロジェクト ファイルにアップグレードは必要ありません。">
+</Event></UpgradeLog>
