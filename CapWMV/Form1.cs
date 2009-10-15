@@ -29,7 +29,8 @@ namespace AsfFilter
         private Panel panelPreview;
         private Timer timer1;
         private System.ComponentModel.IContainer components;
-
+        //プレビュー用
+        private Capt cam1;
         
 
 		public Form1()
@@ -38,7 +39,8 @@ namespace AsfFilter
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
-
+                       
+            
 			//
 			// TODO: Add any constructor code after InitializeComponent call
 			//
@@ -50,10 +52,12 @@ namespace AsfFilter
 
         System.Diagnostics.Stopwatch MyStopWatch = new System.Diagnostics.Stopwatch();
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
+        private void Form1_Load_1(object sender, EventArgs e)
+        {            
             output.Enabled = false;
             sync.Enabled = false;
+            //const int VIDEODEVICE = 0; // zero based index of video capture device to use
+            //cam1 = new Capt(VIDEODEVICE, 320, 240, 15, panelPreview);
         }
 
 		/// <summary>
@@ -189,6 +193,7 @@ namespace AsfFilter
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "AsfFilter";
+            this.Load += new System.EventHandler(this.Form1_Load_1);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -264,5 +269,7 @@ namespace AsfFilter
         {
             timeTextBox.Text = string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds);
         }
+
+
 	}
 }
