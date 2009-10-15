@@ -56,8 +56,10 @@ namespace AsfFilter
         {            
             output.Enabled = false;
             sync.Enabled = false;
+            
             //const int VIDEODEVICE = 0; // zero based index of video capture device to use
             //cam1 = new Capt(VIDEODEVICE, 320, 240, 15, panelPreview);
+            //プレビュー表示(表示するとCapture.cs18行目でシステムリソース不足になる)
         }
 
 		/// <summary>
@@ -135,7 +137,7 @@ namespace AsfFilter
             this.output.Name = "output";
             this.output.Size = new System.Drawing.Size(75, 44);
             this.output.TabIndex = 9;
-            this.output.Text = "Out";
+            this.output.Text = "Reset";
             this.output.UseVisualStyleBackColor = true;
             this.output.Click += new System.EventHandler(this.output_Click);
             // 
