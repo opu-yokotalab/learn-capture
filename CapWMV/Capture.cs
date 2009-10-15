@@ -20,16 +20,22 @@ namespace AsfFilter
         #region Member variables
 
         /// <summary> graph builder interface. </summary>
+        /// フィルタ グラフを作成するメソッドを提供する 
+        /// IFilterGraph インターフェイスおよび IGraphBuilder インターフェイスを拡張する。
 		private IFilterGraph2 m_FilterGraph = null;
+        //フィルタ グラフを通るデータ フローを制御するメソッドを提供する。
+        //ここには、グラフを実行、ポーズ、停止するメソッドが含まれる。
         IMediaControl m_mediaCtrl = null;
 
         /// <summary> Set by async routine when it captures an image </summary>
+        /// 画像キャプチャ時、非同期ルーチンによってセットされる
         private bool m_bRunning = false;
 
 #if DEBUG
-        DsROTEntry m_rot = null;
-#endif
+        DsROTEntry m_rot = null;        
 
+#endif
+        
         #endregion
 
         /// <summary> release everything. </summary>
@@ -52,7 +58,9 @@ namespace AsfFilter
         /// Create capture object
         /// </summary>
         /// <param name="iDeviceNum">Zero based index of capture device</param>
+        /// iDeviceNum：０番目が基となるキャプチャデバイスのインデックス
         /// <param name="szFileName">Output ASF file name</param>
+        /// szFileName：出力するファイルの名前
         public Capture(int iDeviceNum, string szOutputFileName)
         {
             DsDevice [] capDevices;
@@ -60,6 +68,7 @@ namespace AsfFilter
             // Get the collection of video devices
             capDevices = DsDevice.GetDevicesOfCat( FilterCategory.VideoInputDevice );
 
+            //デバイスが見つからなかったら
             if (iDeviceNum + 1 > capDevices.Length)
             {
                 throw new Exception("No video capture devices found at that index!");
@@ -68,6 +77,7 @@ namespace AsfFilter
             try
             {
                 // Set up the capture graph
+                //SetupGraph(capDevices[デバイスの番号],キャプチャ時のファイルネーム)
                 SetupGraph( capDevices[iDeviceNum], szOutputFileName);
 
                 m_bRunning = false;
@@ -143,6 +153,8 @@ namespace AsfFilter
                 Marshal.ThrowExceptionForHR( hr );
 
                 m_mediaCtrl = m_FilterGraph as IMediaControl;
+
+                
             }
             finally
             {

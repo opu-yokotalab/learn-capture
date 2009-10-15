@@ -30,6 +30,7 @@ namespace AsfFilter
         private Timer timer1;
         private System.ComponentModel.IContainer components;
 
+        
 
 		public Form1()
 		{
@@ -43,6 +44,8 @@ namespace AsfFilter
 			//
 		}
 
+        
+        
         ArrayList syn = new ArrayList();
 
         System.Diagnostics.Stopwatch MyStopWatch = new System.Diagnostics.Stopwatch();
