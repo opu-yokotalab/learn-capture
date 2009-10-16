@@ -10,6 +10,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Collections;
+using System.IO;
+
 
 
 namespace AsfFilter
@@ -221,7 +223,7 @@ namespace AsfFilter
 
             if (cam == null)
             {
-                cam = new Capture(VIDEODEVICE, textBox1.Text);
+                cam = new Capture(VIDEODEVICE, textBox1.Text);                
                 cam.Start();
                 button1.Text = "Stop";
                 textBox1.ReadOnly = true;
