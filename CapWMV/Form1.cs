@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Collections;
 using System.IO;
+using System.Text;
 
 
 
@@ -51,6 +52,7 @@ namespace AsfFilter
         
         
         ArrayList syn = new ArrayList();
+        
 
         System.Diagnostics.Stopwatch MyStopWatch = new System.Diagnostics.Stopwatch();
 
@@ -139,7 +141,7 @@ namespace AsfFilter
             this.output.Name = "output";
             this.output.Size = new System.Drawing.Size(75, 44);
             this.output.TabIndex = 9;
-            this.output.Text = "Reset";
+            this.output.Text = "Output";
             this.output.UseVisualStyleBackColor = true;
             this.output.Click += new System.EventHandler(this.output_Click);
             // 
@@ -228,7 +230,7 @@ namespace AsfFilter
                 button1.Text = "Stop";
                 textBox1.ReadOnly = true;
                 sync.Enabled = true;
-                synctime.Text = ("00:00:00:000");
+                synctime.Text = ("00:00:00:00:000");
                 syn.Clear();
                 MyStopWatch.Start();
 
@@ -254,18 +256,54 @@ namespace AsfFilter
 
         private void sync_Click(object sender, EventArgs e)
         {
-            synctime.Text += System.Environment.NewLine+string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds);
+            synctime.Text += System.Environment.NewLine + string.Format("\"" + "{00:00:00:00:000}" + "\"", MyStopWatch.ElapsedMilliseconds);
             syn.Add(string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds));
         }
 
         private void output_Click(object sender, EventArgs e)
         {
+            
+            string name=textBox1.Text;
+            name = name.Replace(".wmv","");
             output.Enabled = false;
             MyStopWatch.Reset();
             timeTextBox.Text = ("00:00:00:000");
+            StreamWriter fs = new StreamWriter(name+".txt");
+            fs.WriteLine("{");
+            fs.WriteLine("\"tag\" : " + "\"" + textBox1.Text + "\"" + ",");
+            fs.WriteLine("\"url\" : " + "[" + "\"" + textBox1.Text + "\"" + "],");
+            fs.WriteLine("\"viewpoint\" : [\"正面\"],");
+            fs.Write("\"sync\" : [");
+
+            for(int count=0;count<syn.Count;count++)
+            {            
+            fs.Write("\"" + (string)syn[count] + "\"");
+            if (count != syn.Count)
+                {
+                    fs.WriteLine(",");
+                }
+            }
+            fs.WriteLine("],");
+            fs.WriteLine("\"rectangle\" : [],");
+            fs.WriteLine("\"text\" : []");
+            fs.WriteLine("}");            
+            fs.Close();
+            ///jsonファイルの書き出し
+            ///プレイヤーのJSONフォーマット
+            ///
+            /// {
+            ///"tag" : "output.wmv",
+            ///"url" : ["output.wmv"],
+            ///"viewpoint" : ["正面"],
+            ///"sync" : ["00:01:00","00:02:00"],
+            ///"rectangle" : [],
+            ///"text" : []
+            ///}
+            ///
+
             //foreach (string s in syn)
             //{
-            //    synctime.Text += System.Environment.NewLine + s;
+            //   synctime.Text += System.Environment.NewLine + s;
             //}
         }
 
