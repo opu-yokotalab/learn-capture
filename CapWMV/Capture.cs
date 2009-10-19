@@ -19,6 +19,7 @@ using DirectShowLib;
 
 
 
+
 namespace AsfFilter
 {
 	/// <summary> Summary description for MainForm. </summary>
@@ -29,6 +30,8 @@ namespace AsfFilter
 
         /// <summary> graph builder interface. </summary>
         /// フィルタ グラフを作成するメソッドを提供する 
+        /// フィルタグラフは特定のタスクを行うために設定されたフィルタの集合体
+        /// (この場合はWMV形式でのキャプチャ)
         /// IFilterGraph インターフェイスおよび IGraphBuilder インターフェイスを拡張する。
 		private IFilterGraph2 m_FilterGraph = null;
         //フィルタ グラフを通るデータ フローを制御するメソッドを提供する。
@@ -135,6 +138,7 @@ namespace AsfFilter
             IBaseFilter capFilter = null;
             IBaseFilter asfWriter = null;
 		    ICaptureGraphBuilder2 capGraph = null;
+            //ビデオキャプチャ＆編集用のメソッドを備えたキャプチャグラフビルダ
 
             // Get the graphbuilder object
             m_FilterGraph = (IFilterGraph2)new FilterGraph();
@@ -245,6 +249,11 @@ namespace AsfFilter
                 m_FilterGraph = null;
             }
         }
+
+        //public void ShowPropertyPages()
+        //{
+        //    DShowNET.DsUtils.ShowCapPinDialog(capGraph,capFilter,this.);
+        //}
     }
     //プレビュー、静止画キャプチャ
     internal class Capt : ISampleGrabberCB, IDisposable

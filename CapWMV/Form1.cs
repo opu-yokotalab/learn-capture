@@ -31,6 +31,7 @@ namespace AsfFilter
         private TextBox synctime;
         private Panel panelPreview;
         private Timer timer1;
+        private Button option;
         private System.ComponentModel.IContainer components;
         //プレビュー用
         //private Capt cam1;
@@ -99,11 +100,12 @@ namespace AsfFilter
             this.synctime = new System.Windows.Forms.TextBox();
             this.panelPreview = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.option = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 184);
+            this.button1.Location = new System.Drawing.Point(0, 184);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 44);
             this.button1.TabIndex = 0;
@@ -128,7 +130,7 @@ namespace AsfFilter
             // 
             // sync
             // 
-            this.sync.Location = new System.Drawing.Point(114, 184);
+            this.sync.Location = new System.Drawing.Point(81, 184);
             this.sync.Name = "sync";
             this.sync.Size = new System.Drawing.Size(75, 44);
             this.sync.TabIndex = 7;
@@ -138,7 +140,7 @@ namespace AsfFilter
             // 
             // output
             // 
-            this.output.Location = new System.Drawing.Point(218, 184);
+            this.output.Location = new System.Drawing.Point(162, 184);
             this.output.Name = "output";
             this.output.Size = new System.Drawing.Size(75, 44);
             this.output.TabIndex = 9;
@@ -184,10 +186,21 @@ namespace AsfFilter
             this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // option
+            // 
+            this.option.Location = new System.Drawing.Point(241, 184);
+            this.option.Name = "option";
+            this.option.Size = new System.Drawing.Size(75, 44);
+            this.option.TabIndex = 13;
+            this.option.Text = "Option";
+            this.option.UseVisualStyleBackColor = true;
+            this.option.Click += new System.EventHandler(this.option_Click);
+            // 
             // Form1
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 12);
             this.ClientSize = new System.Drawing.Size(602, 280);
+            this.Controls.Add(this.option);
             this.Controls.Add(this.panelPreview);
             this.Controls.Add(this.synctime);
             this.Controls.Add(this.timeTextBox);
@@ -329,6 +342,11 @@ namespace AsfFilter
         private void timer1_Tick(object sender, EventArgs e)
         {
             timeTextBox.Text = string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds);
+        }
+
+        private void option_Click(object sender, EventArgs e)
+        {
+
         }
 
 

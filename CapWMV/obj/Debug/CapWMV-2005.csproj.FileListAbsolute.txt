@@ -20,3 +20,4 @@ C:\Users\matuyosi\Desktop\ヴァージョン\trunk\CapWMV\bin\Debug\CapWMV.pdb
 C:\Users\matuyosi\Desktop\ヴァージョン\trunk\CapWMV\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\matuyosi\Desktop\ヴァージョン\trunk\CapWMV\obj\Debug\AsfFilter.Form1.resources
 C:\Users\matuyosi\Desktop\ヴァージョン\trunk\CapWMV\obj\Debug\CapWMV-2005.csproj.GenerateResource.Cache
+C:\Users\matuyosi\Desktop\ヴァージョン\trunk\CapWMV\bin\Debug\DShowNET.dll

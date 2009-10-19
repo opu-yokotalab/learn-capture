@@ -94,6 +94,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\DirectShowLibV2-0\lib\DirectShowLib-2005.dll</HintPath>
     </Reference>
+    <Reference Include="DShowNET, Version=1.0.0.1, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\DShowNET.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
