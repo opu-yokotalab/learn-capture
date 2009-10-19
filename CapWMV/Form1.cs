@@ -158,7 +158,7 @@ namespace AsfFilter
             this.timeTextBox.Size = new System.Drawing.Size(305, 55);
             this.timeTextBox.TabIndex = 10;
             this.timeTextBox.TabStop = false;
-            this.timeTextBox.Text = "00:00:00:000";
+            this.timeTextBox.Text = "00:00:00.000";
             this.timeTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // synctime
@@ -266,10 +266,25 @@ namespace AsfFilter
             
             string name=textBox1.Text;
             name = name.Replace(".wmv","");
+            string []synctime=new string[syn.Count];
             output.Enabled = false;
             MyStopWatch.Reset();
             timeTextBox.Text = ("00:00:00:000");
-            StreamWriter fs = new StreamWriter(name+".json");
+            StreamWriter fs = new StreamWriter(name+".txt");
+
+            for (int count = 0; count < syn.Count; count++)
+            {
+                synctime[count] = (string)syn[count];
+            }
+            for (int count = 0; count < syn.Count; count++)
+            {
+                synctime[count] = synctime[count].Remove(8,1);
+            }
+            for (int count = 0; count < syn.Count; count++)
+            {
+                synctime[count] = synctime[count].Insert(8,".");
+            }
+
             fs.WriteLine("{");
             fs.WriteLine("\"tag\" : " + "\"" + textBox1.Text + "\"" + ",");
             fs.WriteLine("\"url\" : " + "[" + "\"" + textBox1.Text + "\"" + "],");
@@ -278,8 +293,8 @@ namespace AsfFilter
 
             for(int count=0;count<syn.Count;count++)
             {            
-            fs.Write("\"" + (string)syn[count] + "\"");
-            if (count != syn.Count)
+            fs.Write("\"" + synctime[count] + "\"");
+            if (count != syn.Count-1)
                 {
                     fs.WriteLine(",");
                 }
