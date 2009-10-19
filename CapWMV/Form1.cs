@@ -33,7 +33,7 @@ namespace AsfFilter
         private Timer timer1;
         private System.ComponentModel.IContainer components;
         //プレビュー用
-        private Capt cam1;
+        //private Capt cam1;
         
 
 		public Form1()
@@ -64,6 +64,7 @@ namespace AsfFilter
             //const int VIDEODEVICE = 0; // zero based index of video capture device to use
             //cam1 = new Capt(VIDEODEVICE, 320, 240, 15, panelPreview);
             //プレビュー表示(表示するとCapture.cs18行目でシステムリソース不足になる)
+            //キャプチャピンが重複してる？
         }
 
 		/// <summary>
@@ -268,7 +269,7 @@ namespace AsfFilter
             output.Enabled = false;
             MyStopWatch.Reset();
             timeTextBox.Text = ("00:00:00:000");
-            StreamWriter fs = new StreamWriter(name+".txt");
+            StreamWriter fs = new StreamWriter(name+".json");
             fs.WriteLine("{");
             fs.WriteLine("\"tag\" : " + "\"" + textBox1.Text + "\"" + ",");
             fs.WriteLine("\"url\" : " + "[" + "\"" + textBox1.Text + "\"" + "],");
@@ -283,6 +284,7 @@ namespace AsfFilter
                     fs.WriteLine(",");
                 }
             }
+
             fs.WriteLine("],");
             fs.WriteLine("\"rectangle\" : [],");
             fs.WriteLine("\"text\" : []");
