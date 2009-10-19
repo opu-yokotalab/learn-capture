@@ -259,6 +259,8 @@ namespace AsfFilter
         {
             synctime.Text += System.Environment.NewLine + string.Format("\"" + "{00:00:00:00:000}" + "\"", MyStopWatch.ElapsedMilliseconds);
             syn.Add(string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds));
+            synctime.SelectionStart = synctime.TextLength;
+            synctime.ScrollToCaret();
         }
 
         private void output_Click(object sender, EventArgs e)
@@ -270,7 +272,7 @@ namespace AsfFilter
             output.Enabled = false;
             MyStopWatch.Reset();
             timeTextBox.Text = ("00:00:00:000");
-            StreamWriter fs = new StreamWriter(name+".txt");
+            StreamWriter fs = new StreamWriter(name+".json");
 
             for (int count = 0; count < syn.Count; count++)
             {
