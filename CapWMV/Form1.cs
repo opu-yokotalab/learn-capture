@@ -26,7 +26,6 @@ namespace AsfFilter
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
         private Button sync;
-        private Button output;
         private TextBox timeTextBox;
         private TextBox synctime;
         private Panel panelPreview;
@@ -53,13 +52,12 @@ namespace AsfFilter
         
         
         ArrayList syn = new ArrayList();
-        
+        int num=1;
 
         System.Diagnostics.Stopwatch MyStopWatch = new System.Diagnostics.Stopwatch();
 
         private void Form1_Load_1(object sender, EventArgs e)
-        {            
-            output.Enabled = false;
+        {                        
             sync.Enabled = false;
             
             //const int VIDEODEVICE = 0; // zero based index of video capture device to use
@@ -95,7 +93,6 @@ namespace AsfFilter
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.sync = new System.Windows.Forms.Button();
-            this.output = new System.Windows.Forms.Button();
             this.timeTextBox = new System.Windows.Forms.TextBox();
             this.synctime = new System.Windows.Forms.TextBox();
             this.panelPreview = new System.Windows.Forms.Panel();
@@ -105,7 +102,7 @@ namespace AsfFilter
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(0, 184);
+            this.button1.Location = new System.Drawing.Point(23, 184);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 44);
             this.button1.TabIndex = 0;
@@ -114,11 +111,13 @@ namespace AsfFilter
             // 
             // textBox1
             // 
+            this.textBox1.Font = new System.Drawing.Font("MS UI Gothic", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox1.Location = new System.Drawing.Point(64, 249);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(160, 19);
+            this.textBox1.Size = new System.Drawing.Size(160, 26);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "foo.wmv";
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label1
             // 
@@ -130,23 +129,13 @@ namespace AsfFilter
             // 
             // sync
             // 
-            this.sync.Location = new System.Drawing.Point(81, 184);
+            this.sync.Location = new System.Drawing.Point(116, 184);
             this.sync.Name = "sync";
             this.sync.Size = new System.Drawing.Size(75, 44);
             this.sync.TabIndex = 7;
             this.sync.Text = "Sync";
             this.sync.UseVisualStyleBackColor = true;
             this.sync.Click += new System.EventHandler(this.sync_Click);
-            // 
-            // output
-            // 
-            this.output.Location = new System.Drawing.Point(162, 184);
-            this.output.Name = "output";
-            this.output.Size = new System.Drawing.Size(75, 44);
-            this.output.TabIndex = 9;
-            this.output.Text = "Output";
-            this.output.UseVisualStyleBackColor = true;
-            this.output.Click += new System.EventHandler(this.output_Click);
             // 
             // timeTextBox
             // 
@@ -188,7 +177,7 @@ namespace AsfFilter
             // 
             // option
             // 
-            this.option.Location = new System.Drawing.Point(241, 184);
+            this.option.Location = new System.Drawing.Point(204, 184);
             this.option.Name = "option";
             this.option.Size = new System.Drawing.Size(75, 44);
             this.option.TabIndex = 13;
@@ -204,7 +193,6 @@ namespace AsfFilter
             this.Controls.Add(this.panelPreview);
             this.Controls.Add(this.synctime);
             this.Controls.Add(this.timeTextBox);
-            this.Controls.Add(this.output);
             this.Controls.Add(this.sync);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
@@ -230,16 +218,18 @@ namespace AsfFilter
 		}
 
         Capture cam = null;
-
+        
         private void button1_Click(object sender, System.EventArgs e)
         {
             const int VIDEODEVICE = 0; // zero based index of video capture device to use
 
+            string filename=textBox1.Text;
+            int moji=filename.Length;
             Cursor.Current = Cursors.WaitCursor;
 
             if (cam == null)
             {
-                cam = new Capture(VIDEODEVICE, textBox1.Text);                
+                cam = new Capture(VIDEODEVICE, textBox1.Text);
                 cam.Start();
                 button1.Text = "Stop";
                 textBox1.ReadOnly = true;
@@ -247,7 +237,6 @@ namespace AsfFilter
                 synctime.Text = ("00:00:00:00:000");
                 syn.Clear();
                 MyStopWatch.Start();
-
             }
             else
             {
@@ -257,12 +246,74 @@ namespace AsfFilter
                 // Pause the recording
                 cam.Pause();
                 MyStopWatch.Stop();
-                output.Enabled = true;
                 timeTextBox.Text = string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds);
 
                 // Close it down
                 cam.Dispose();
                 cam = null;
+
+                //string name = textBox1.Text;
+                //name = name.Replace(".wmv", "");
+                string[] synctime = new string[syn.Count];
+                MyStopWatch.Reset();
+                timeTextBox.Text = ("00:00:00:000");
+                StreamWriter fs = new StreamWriter(textBox1.Text + ".json");
+
+                for (int count = 0; count < syn.Count; count++)
+                {
+                    synctime[count] = (string)syn[count];
+                }
+                for (int count = 0; count < syn.Count; count++)
+                {
+                    synctime[count] = synctime[count].Remove(8, 1);
+                }
+                for (int count = 0; count < syn.Count; count++)
+                {
+                    synctime[count] = synctime[count].Insert(8, ".");
+                }
+
+                fs.WriteLine("{");
+                fs.WriteLine("\"tag\" : " + "\"" + textBox1.Text + ".wmv" + "\"" + ",");
+                fs.WriteLine("\"url\" : " + "[" + "\"" + textBox1.Text + ".wmv" + "\"" + "],");
+                fs.WriteLine("\"viewpoint\" : [\"正面\"],");
+                fs.Write("\"sync\" : [");
+
+                for (int count = 0; count < syn.Count; count++)
+                {
+                    fs.Write("\"" + synctime[count] + "\"");
+                    if (count != syn.Count - 1)
+                    {
+                        fs.WriteLine(",");
+                    }
+                }
+
+                fs.WriteLine("],");
+                fs.WriteLine("\"rectangle\" : [],");
+                fs.WriteLine("\"text\" : []");
+                fs.WriteLine("}");
+                fs.Close();
+
+                num++;
+                filename = textBox1.Text;
+
+                ///jsonファイルの書き出し
+                ///プレイヤーのJSONフォーマット
+                ///
+                /// {
+                ///"tag" : "output.wmv",
+                ///"url" : ["output.wmv"],
+                ///"viewpoint" : ["正面"],
+                ///"sync" : ["00:01:00","00:02:00"],
+                ///"rectangle" : [],
+                ///"text" : []
+                ///}
+                ///
+
+                //foreach (string s in syn)
+                //{
+                //   synctime.Text += System.Environment.NewLine + s;
+                //}
+
             }
 
             Cursor.Current = Cursors.Default;
@@ -276,69 +327,6 @@ namespace AsfFilter
             synctime.ScrollToCaret();
         }
 
-        private void output_Click(object sender, EventArgs e)
-        {
-            
-            string name=textBox1.Text;
-            name = name.Replace(".wmv","");
-            string []synctime=new string[syn.Count];
-            output.Enabled = false;
-            MyStopWatch.Reset();
-            timeTextBox.Text = ("00:00:00:000");
-            StreamWriter fs = new StreamWriter(name+".json");
-
-            for (int count = 0; count < syn.Count; count++)
-            {
-                synctime[count] = (string)syn[count];
-            }
-            for (int count = 0; count < syn.Count; count++)
-            {
-                synctime[count] = synctime[count].Remove(8,1);
-            }
-            for (int count = 0; count < syn.Count; count++)
-            {
-                synctime[count] = synctime[count].Insert(8,".");
-            }
-
-            fs.WriteLine("{");
-            fs.WriteLine("\"tag\" : " + "\"" + textBox1.Text + "\"" + ",");
-            fs.WriteLine("\"url\" : " + "[" + "\"" + textBox1.Text + "\"" + "],");
-            fs.WriteLine("\"viewpoint\" : [\"正面\"],");
-            fs.Write("\"sync\" : [");
-
-            for(int count=0;count<syn.Count;count++)
-            {            
-            fs.Write("\"" + synctime[count] + "\"");
-            if (count != syn.Count-1)
-                {
-                    fs.WriteLine(",");
-                }
-            }
-
-            fs.WriteLine("],");
-            fs.WriteLine("\"rectangle\" : [],");
-            fs.WriteLine("\"text\" : []");
-            fs.WriteLine("}");            
-            fs.Close();
-            ///jsonファイルの書き出し
-            ///プレイヤーのJSONフォーマット
-            ///
-            /// {
-            ///"tag" : "output.wmv",
-            ///"url" : ["output.wmv"],
-            ///"viewpoint" : ["正面"],
-            ///"sync" : ["00:01:00","00:02:00"],
-            ///"rectangle" : [],
-            ///"text" : []
-            ///}
-            ///
-
-            //foreach (string s in syn)
-            //{
-            //   synctime.Text += System.Environment.NewLine + s;
-            //}
-        }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             timeTextBox.Text = string.Format("{00:00:00:00:000}", MyStopWatch.ElapsedMilliseconds);
@@ -349,6 +337,9 @@ namespace AsfFilter
 
         }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
 
+        }
 	}
 }
