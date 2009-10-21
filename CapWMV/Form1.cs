@@ -31,6 +31,7 @@ namespace AsfFilter
         private Panel panelPreview;
         private Timer timer1;
         private Button option;
+        private TextBox movienumber;
         private System.ComponentModel.IContainer components;
         //プレビュー用
         //private Capt cam1;
@@ -59,6 +60,7 @@ namespace AsfFilter
         private void Form1_Load_1(object sender, EventArgs e)
         {                        
             sync.Enabled = false;
+            movienumber.Text=textBox1.Text+num+"を撮影待機";
             
             //const int VIDEODEVICE = 0; // zero based index of video capture device to use
             //cam1 = new Capt(VIDEODEVICE, 320, 240, 15, panelPreview);
@@ -98,6 +100,7 @@ namespace AsfFilter
             this.panelPreview = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.option = new System.Windows.Forms.Button();
+            this.movienumber = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
@@ -112,16 +115,16 @@ namespace AsfFilter
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("MS UI Gothic", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBox1.Location = new System.Drawing.Point(64, 249);
+            this.textBox1.Location = new System.Drawing.Point(23, 249);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(160, 26);
+            this.textBox1.Size = new System.Drawing.Size(95, 26);
             this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "foo.wmv";
+            this.textBox1.Text = "foo";
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(62, 231);
+            this.label1.Location = new System.Drawing.Point(21, 231);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(60, 15);
             this.label1.TabIndex = 2;
@@ -185,10 +188,19 @@ namespace AsfFilter
             this.option.UseVisualStyleBackColor = true;
             this.option.Click += new System.EventHandler(this.option_Click);
             // 
+            // movienumber
+            // 
+            this.movienumber.Font = new System.Drawing.Font("MS UI Gothic", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.movienumber.Location = new System.Drawing.Point(124, 249);
+            this.movienumber.Name = "movienumber";
+            this.movienumber.Size = new System.Drawing.Size(181, 26);
+            this.movienumber.TabIndex = 14;
+            // 
             // Form1
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 12);
             this.ClientSize = new System.Drawing.Size(602, 280);
+            this.Controls.Add(this.movienumber);
             this.Controls.Add(this.option);
             this.Controls.Add(this.panelPreview);
             this.Controls.Add(this.synctime);
@@ -229,8 +241,9 @@ namespace AsfFilter
 
             if (cam == null)
             {
-                cam = new Capture(VIDEODEVICE, textBox1.Text);
+                cam = new Capture(VIDEODEVICE, textBox1.Text + num + ".wmv");
                 cam.Start();
+                movienumber.Text=textBox1.Text+num+"を撮影中";
                 button1.Text = "Stop";
                 textBox1.ReadOnly = true;
                 sync.Enabled = true;
@@ -257,7 +270,7 @@ namespace AsfFilter
                 string[] synctime = new string[syn.Count];
                 MyStopWatch.Reset();
                 timeTextBox.Text = ("00:00:00:000");
-                StreamWriter fs = new StreamWriter(textBox1.Text + ".json");
+                StreamWriter fs = new StreamWriter(textBox1.Text +num+ ".json");
 
                 for (int count = 0; count < syn.Count; count++)
                 {
@@ -294,7 +307,7 @@ namespace AsfFilter
                 fs.Close();
 
                 num++;
-                filename = textBox1.Text;
+                movienumber.Text = textBox1.Text + num + "の撮影を待機中";
 
                 ///jsonファイルの書き出し
                 ///プレイヤーのJSONフォーマット
@@ -339,7 +352,8 @@ namespace AsfFilter
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
+            num = 1;
+            movienumber.Text = textBox1.Text+num+"の撮影を待機中";
         }
 	}
 }

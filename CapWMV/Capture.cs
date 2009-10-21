@@ -7,13 +7,16 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 
 
 using System;
+using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections;
 using System.Runtime.InteropServices;
+using System.Data;
 using System.Threading;
+using System.ComponentModel;
 using System.Diagnostics;
-using System.Windows.Forms;
+
 
 using DirectShowLib;
 
@@ -24,7 +27,7 @@ namespace AsfFilter
 {
 	/// <summary> Summary description for MainForm. </summary>
     //“®‰æƒLƒƒƒvƒ`ƒƒ
-    internal class Capture: IDisposable
+    public class Capture: IDisposable
 	{
         #region Member variables
 
@@ -47,6 +50,7 @@ namespace AsfFilter
         private bool m_bRunning = false;
 
 #if DEBUG
+        // Running object table classes to show the graphs in GraphEdt
         DsROTEntry m_rot = null;        
 
 #endif
