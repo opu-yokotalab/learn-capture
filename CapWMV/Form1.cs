@@ -60,7 +60,7 @@ namespace AsfFilter
         private void Form1_Load_1(object sender, EventArgs e)
         {                        
             sync.Enabled = false;
-            movienumber.Text=textBox1.Text+num+"‚ðŽB‰e‘Ò‹@";
+            movienumber.Text=textBox1.Text+num+"‚ÌŽB‰e‚ð‘Ò‹@’†";
             
             //const int VIDEODEVICE = 0; // zero based index of video capture device to use
             //cam1 = new Capt(VIDEODEVICE, 320, 240, 15, panelPreview);
