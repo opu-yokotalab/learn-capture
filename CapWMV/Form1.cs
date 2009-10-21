@@ -35,7 +35,7 @@ namespace AsfFilter
         private System.ComponentModel.IContainer components;
         //プレビュー用
         //private Capt cam1;
-        
+        AsfFilter.Form2.Capt cap;
 
 		public Form1()
 		{
@@ -229,7 +229,7 @@ namespace AsfFilter
 			Application.Run(new Form1());
 		}
 
-        Capture cam = null;
+        AsfFilter.Form2.Capt cam = null;
         
         private void button1_Click(object sender, System.EventArgs e)
         {
@@ -241,7 +241,7 @@ namespace AsfFilter
 
             if (cam == null)
             {
-                cam = new Capture(VIDEODEVICE, textBox1.Text + num + ".wmv");
+                cam = new AsfFilter.Form2.Capt(VIDEODEVICE, textBox1.Text + num + ".wmv");
                 cam.Start();
                 movienumber.Text=textBox1.Text+num+"を撮影中";
                 button1.Text = "Stop";
@@ -347,7 +347,7 @@ namespace AsfFilter
 
         private void option_Click(object sender, EventArgs e)
         {
-
+            //cap.ShowPropertyPages();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

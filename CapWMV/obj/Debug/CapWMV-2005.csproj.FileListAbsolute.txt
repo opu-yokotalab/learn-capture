@@ -21,3 +21,4 @@ C:\Users\matuyosi\Desktop\ヴァージョン\trunk\CapWMV\obj\Debug\ResolveAssem
 C:\Users\matuyosi\Desktop\ヴァージョン\trunk\CapWMV\obj\Debug\AsfFilter.Form1.resources
 C:\Users\matuyosi\Desktop\ヴァージョン\trunk\CapWMV\obj\Debug\CapWMV-2005.csproj.GenerateResource.Cache
 C:\Users\matuyosi\Desktop\ヴァージョン\trunk\CapWMV\bin\Debug\DShowNET.dll
+C:\Users\matuyosi\Desktop\ヴァージョン\trunk\CapWMV\obj\Debug\AsfFilter.Form2.resources
