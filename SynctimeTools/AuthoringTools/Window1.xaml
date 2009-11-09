@@ -1,0 +1,40 @@
+﻿<Window x:Class="AuthoringTools.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="SynctimeTools" Height="300" Width="300"
+    Loaded="Window_Loaded">
+
+    <Grid Height="267">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>           
+            <RowDefinition Height="Auto" MinHeight="20" />
+            <RowDefinition Height="205*" />
+            <RowDefinition Height="42*" MinHeight="19" />
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="position" FontSize="20" Grid.ColumnSpan="2" Text="00:00:00" Height="20" VerticalAlignment="Top" />
+        <Button x:Name="refButton" Grid.Column="3" Grid.Row="2" Content="フォルダ設定" Click="refButton_Click"  />
+        <TextBlock x:Name="fileName" Grid.Column="2" FontSize="14" Height="20" VerticalAlignment="Top" />
+        
+        <TextBox x:Name="syncPointList" Grid.ColumnSpan="3" FontSize="20" Grid.Row="1" />
+        
+        <Button x:Name="startButton" Grid.Column="0" Grid.Row="2"
+            Content="撮影開始" Click="startButton_Click" FontSize="15" />
+        <Button x:Name="syncPointButton" Grid.Column="1" Grid.Row="2"
+            Content="同期指定" Click="syncPointButton_Click" FontSize="15" />
+        <Button x:Name="stopButton" Grid.Column="2" Grid.Row="2"
+            Content="撮影終了" Click="stopButton_Click" FontSize="15" />
+        <TextBox x:Name="rename" Grid.Column="2" Grid.ColumnSpan="2" FontSize="15" TextChanged="rename_TextChanged" Height="20" VerticalAlignment="Top" Margin="0,2.157,0,0" Grid.RowSpan="2" />
+        <ListBox Grid.Column="3" Grid.Row="1" x:Name="namelist" SelectionChanged="namelist_SelectionChanged" SelectedIndex="0" FontSize="14">
+            <!--こういう追加の仕方もある
+            <ListBoxItem>生徒A</ListBoxItem>
+            <ListBoxItem>生徒B</ListBoxItem>
+            <ListBoxItem>生徒C</ListBoxItem>
+            -->
+        </ListBox>
+    </Grid>
+</Window>
