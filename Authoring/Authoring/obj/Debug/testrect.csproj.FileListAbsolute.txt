@@ -1,0 +1,12 @@
+C:\Users\matuyosi\AppData\Local\Temporary Projects\testrect\bin\Debug\testrect.exe
+C:\Users\matuyosi\AppData\Local\Temporary Projects\testrect\bin\Debug\testrect.pdb
+C:\Users\matuyosi\AppData\Local\Temporary Projects\testrect\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\matuyosi\AppData\Local\Temporary Projects\testrect\obj\Debug\Window1.baml
+C:\Users\matuyosi\AppData\Local\Temporary Projects\testrect\obj\Debug\Window1.g.cs
+C:\Users\matuyosi\AppData\Local\Temporary Projects\testrect\obj\Debug\App.g.cs
+C:\Users\matuyosi\AppData\Local\Temporary Projects\testrect\obj\Debug\testrect_MarkupCompile.cache
+C:\Users\matuyosi\AppData\Local\Temporary Projects\testrect\obj\Debug\testrect.g.resources
+C:\Users\matuyosi\AppData\Local\Temporary Projects\testrect\obj\Debug\testrect.Properties.Resources.resources
+C:\Users\matuyosi\AppData\Local\Temporary Projects\testrect\obj\Debug\testrect.csproj.GenerateResource.Cache
+C:\Users\matuyosi\AppData\Local\Temporary Projects\testrect\obj\Debug\testrect.exe
+C:\Users\matuyosi\AppData\Local\Temporary Projects\testrect\obj\Debug\testrect.pdb

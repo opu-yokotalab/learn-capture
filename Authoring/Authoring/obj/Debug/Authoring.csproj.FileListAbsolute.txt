@@ -1,0 +1,14 @@
+C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\bin\Debug\Authoring.exe
+C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\bin\Debug\Authoring.pdb
+C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\obj\Debug\Window1.baml
+C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\obj\Debug\Window1.g.cs
+C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\obj\Debug\App.g.cs
+C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\obj\Debug\Authoring_Content.g.cs
+C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\obj\Debug\Authoring_MarkupCompile.cache
+C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\obj\Debug\Authoring.g.resources
+C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\obj\Debug\testrect.Properties.Resources.resources
+C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\obj\Debug\Authoring.csproj.GenerateResource.Cache
+C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\obj\Debug\Authoring.exe
+C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\obj\Debug\Authoring.pdb
+C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\bin\Debug\Authoring.exe.config
