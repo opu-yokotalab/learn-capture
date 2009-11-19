@@ -13,6 +13,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 // 追加分
 using System.Windows.Forms;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Json;
@@ -67,6 +71,7 @@ namespace AuthoringTools
             timer.Start();
             //動画ファイルを保存するフォルダを設定ファイルから読み込む
             path = Properties.Settings.Default.defaultname;
+
             //動画を保存するフォルダ名を表示(表示が大きくなりすぎる)
             //fileName.Text=path;
         }
@@ -109,10 +114,36 @@ namespace AuthoringTools
             {
                 var shell = new WshShellClass();
                 //objectは型を選ばず格納できる
-                object wait = 0;
-                //指定のキーをアクティブなウィンドウに送る：^はCtrlキー,+はShiftキーつまりCtrl+Shift+F11
-                //第2引数はキーストロークで行われる処理が終了するまで一時停止時間　今回は停止なし
-                shell.SendKeys("^+{F11}", ref wait);
+                //object wait = 0;
+                ////指定のキーをアクティブなウィンドウに送る：^はCtrlキー,+はShiftキーつまりCtrl+Shift+F11
+                ////第2引数はキーストロークで行われる処理が終了するまで一時停止時間　今回は停止なし
+                //shell.SendKeys("^+{F11}", ref wait);
+
+                if (st != null)
+                {
+                    if (st.CanWrite)
+                    {
+                        
+                        Byte[] sendBytes = Encoding.UTF8.GetBytes("撮影開始");
+                        st.Write(sendBytes, 0, sendBytes.Length);
+                        shoot();
+                    }
+                }
+                if (st2 != null)
+                {
+                    if (st2.CanWrite)
+                    {
+                        
+                        Byte[] sendBytes = Encoding.UTF8.GetBytes("撮影開始");
+                        st2.Write(sendBytes, 0, sendBytes.Length);
+                        shoot();
+                    }
+                }
+                else
+                {
+                    shoot();
+                    return;
+                }
 
 
                 System.Threading.Thread.Sleep(100);
@@ -160,8 +191,30 @@ namespace AuthoringTools
 
             var shell = new WshShellClass();
             object wait = 0;
+
             //Ctrl+Shift+F12を送る
             shell.SendKeys("^+{F12}", ref wait);
+            if (st != null)
+            {
+                if (st.CanWrite)
+                {                    
+                    Byte[] sendBytes = Encoding.UTF8.GetBytes("撮影終了");
+                    st.Write(sendBytes, 0, sendBytes.Length);
+                }
+            }
+            if (st2 != null)
+            {
+                if (st2.CanWrite)
+                {                   
+                    Byte[] sendBytes = Encoding.UTF8.GetBytes("撮影終了");
+                    st2.Write(sendBytes, 0, sendBytes.Length);
+                }
+            }
+            else
+            {
+                return;
+            }
+
 
             sw.Stop();
 
@@ -266,5 +319,110 @@ namespace AuthoringTools
 
             rename.Text = s + num + "の撮影待機中";
         }
+
+
+        
+        //以下、接続部分
+
+        //接続待ちスレッド
+        private Thread thread = null;
+        //接続待ちスレッド終了制御
+        private bool bAlive;
+        //スレッド終了待ちイベント
+        private AutoResetEvent evt = new AutoResetEvent(false);
+
+        public TcpClient tcp;
+        public TcpClient tcp2;
+
+        //接続時のネットワークストリーム
+        public NetworkStream st = null;
+        public NetworkStream st2 = null;
+
+        public object wait = 0;
+
+        private void accept_Click(object sender, RoutedEventArgs e)
+        {
+            // 接続待ちのスレッドを開始
+            Thread thread =
+                    new Thread(new ThreadStart(ListenStart));
+            // スレッドをスタート
+            thread.Start();
+            textBox2.Text = "接続待ち";
+
+        }
+
+        private void cance_Click(object sender, RoutedEventArgs e)
+        {
+            // スレッド制御フラグを設定
+            bAlive = false;
+
+            // スレッド終了待ち
+            evt.WaitOne();
+
+            // スレッドを破棄
+            thread = null;
+
+            textBox2.Text = "接続待ち中止";
+
+        }
+
+        private void ListenStart()
+        {
+            // Listenerの生成
+            TcpListener listener = new TcpListener(IPAddress.Any, 9999);
+            TcpListener listener2 = new TcpListener(IPAddress.Any, 9998);
+
+            // 接続要求受け入れ開始
+            //textBox1.Text = "接続待ち";           
+            listener.Start();
+            listener2.Start();
+
+            // 終了制御フラグ
+            bAlive = true;
+
+            while (bAlive)
+            {
+                // 接続待ちがあるか？
+                if (listener.Pending() == true)
+                {
+                    // 接続要求を受け入れる
+                    tcp = listener.AcceptTcpClient();
+
+                    // 接続したソケットに対する処理
+                    //textBox1.Text = "接続！";
+
+                    //// ソケットに対する処理
+                    st = tcp.GetStream();
+                }
+                if (listener2.Pending() == true)
+                {
+                    // 接続要求を受け入れる
+                    tcp2 = listener2.AcceptTcpClient();
+
+                    // 接続したソケットに対する処理                    
+                    //textBox1.Text = "接続！";
+
+                    //// ソケットに対する処理
+                    st2 = tcp2.GetStream();
+                }
+                // 少々待機
+                Thread.Sleep(100);
+            }
+
+            // 接続待ち終了
+            listener.Stop();
+            listener2.Stop();
+
+            // イベントをシグナル状態にする
+            evt.Set();
+        }
+
+
+        private void shoot()
+        {
+            var shell = new WshShellClass();
+            shell.SendKeys("^+{F11}", ref wait);
+        }
+
     }
 }

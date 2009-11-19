@@ -1,7 +1,7 @@
 ﻿<Window x:Class="AuthoringTools.Window1"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="SynctimeTools" Height="300" Width="300"
+    Title="SynctimeTools" Height="306" Width="326"
     Loaded="Window_Loaded">
 
     <Grid Height="267">
@@ -11,13 +11,14 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>           
+        <Grid.RowDefinitions>
             <RowDefinition Height="Auto" MinHeight="20" />
             <RowDefinition Height="205*" />
             <RowDefinition Height="42*" MinHeight="19" />
+            <RowDefinition Height="42*" MinHeight="19" />
         </Grid.RowDefinitions>
         <TextBlock x:Name="position" FontSize="20" Grid.ColumnSpan="2" Text="00:00:00" Height="20" VerticalAlignment="Top" />
-        <Button x:Name="refButton" Grid.Column="3" Grid.Row="2" Content="フォルダ設定" Click="refButton_Click"  />
+        <Button x:Name="refButton" Grid.Column="2" Grid.Row="3" Content="フォルダ設定" Click="refButton_Click"  />
         <TextBlock x:Name="fileName" Grid.Column="2" FontSize="14" Height="20" VerticalAlignment="Top" />
         
         <TextBox x:Name="syncPointList" Grid.ColumnSpan="3" FontSize="20" Grid.Row="1" />
@@ -36,5 +37,8 @@
             <ListBoxItem>生徒C</ListBoxItem>
             -->
         </ListBox>
+        <Button x:Name="accept" Content="接続待機" Grid.Row="3" FontSize="15" Click="accept_Click" />
+        <Button x:Name="cance"  Content="待機中止" Grid.Column="1" Grid.Row="3" FontSize="15" Click="cance_Click" />
+        <TextBox Grid.Column="3" Grid.Row="3" Name="textBox2" />
     </Grid>
 </Window>
