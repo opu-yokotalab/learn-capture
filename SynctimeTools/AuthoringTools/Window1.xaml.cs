@@ -248,9 +248,9 @@ namespace AuthoringTools
             Properties.Settings.Default.Save();
         }
 
+        
         private void rename_TextChanged(object sender, TextChangedEventArgs e)
         {
-            
             rename.Text=s+num+"の撮影待機中";
         }
         
