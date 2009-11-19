@@ -17,6 +17,8 @@ using System.Windows.Ink;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.IO;
+using System.Json;
+using System.Diagnostics;
 
 
 namespace testrect
@@ -61,13 +63,25 @@ namespace testrect
         //演出の作成
         ///
 
+        public double wi;
+        public double he;
+        public double recxst;
+        public double recyst;
+        public double recxen;
+        public double recyen;
+        public double senxst;
+        public double senyst;
+        public string ss;
+        
+
         //四角の演出
         private bool dragStart = false;
         private Point dragStartPnt;
         //書き込む四角
         public Rectangle drawingRectangle;
         //演出の選択
-        public Mode mode = Mode.Rectangle;
+        public Mode mode;
+
 
         public enum Mode
         {
@@ -91,9 +105,21 @@ namespace testrect
             Point str = e.GetPosition(rect);
             double x = str.X;
             double y = str.Y;
-            strleft.Text = x.ToString();
-            strtop.Text = y.ToString();
-            DrawSentence(dragStartPnt);
+            recxst = x;
+            recyst = y;
+            //strleft.Text = x.ToString();
+            //strtop.Text = y.ToString();
+            switch (mode)
+            {
+                case (Mode.Rectangle):
+                    break;
+                case (Mode.Sentence):
+                    DrawSentence(dragStartPnt);
+                    senxst = x;
+                    senyst = y;
+                    ss = letter.Text;
+                    break;
+            }
         }
 
         private void rect_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -102,8 +128,10 @@ namespace testrect
             Point end = e.GetPosition(rect);
             double x = end.X;
             double y = end.Y;
-            endleft.Text = x.ToString();
-            endtop.Text = y.ToString();
+            recxen = x;
+            recyen = y;
+            //endleft.Text = x.ToString();
+            //endtop.Text = y.ToString();
         }
 
         private void rect_MouseLeave(object sender, MouseEventArgs e)
@@ -124,24 +152,26 @@ namespace testrect
                         DrawRectangle(dragStartPnt, curPos);
                         break;
                     case (Mode.Sentence):
-                        DrawSentence(dragStartPnt);
                         break;
                 }
             }
         }
 
-        private void DrawSentence(Point startPnt)
+        public TextBlock DrawSentence(Point startPnt)
         {
             var sentence = new TextBlock
             {
-                FontSize=14,
-                Text="test",
+                FontSize=double.Parse(fontsize.Text),
+                Text=letter.Text,
                 Background = new SolidColorBrush(Colors.Transparent)
             };
             Canvas.SetLeft(sentence, startPnt.X);
             Canvas.SetTop(sentence, startPnt.Y);
+            senxst = startPnt.X;
+            senyst = startPnt.Y;
 
             drawAria.Children.Add(sentence);
+            return sentence;
         }
 
         private void DrawRectangle(Point startPnt, Point endPnt)
@@ -184,23 +214,31 @@ namespace testrect
         public Rectangle DrawRectangle(double left, double top, double width, double height)
         {
             //新しく書き込む四角の形式
+
             var rectangle = new Rectangle
             {
                 //width、heightの絶対値を返す(負の値が来る場合も考えられるので)
                 Width = Math.Abs(width),
                 Height = Math.Abs(height),
                 Stroke = new SolidColorBrush(Colors.Red),
-                StrokeThickness = 2
+                StrokeThickness = 2,
+                Name="re"
             };
 
             Canvas.SetLeft(rectangle, left);
             Canvas.SetTop(rectangle, top);
 
+            whset(Math.Abs(width), Math.Abs(height));
             drawAria.Children.Add(rectangle);
 
             return rectangle;
         }
 
+        private void whset(double x,double y)
+        {
+            wi = x;
+            he = y;
+        }
 
         private void StartDragging(Point startPnt)
         {
@@ -221,17 +259,6 @@ namespace testrect
             }
         }
 
-        private void texttest_Click(object sender, RoutedEventArgs e)
-        {
-            var text = new TextBlock();
-            text.Text = "test";
-            text.FontSize = 15;           
-
-            Canvas.SetLeft(text,200);
-            Canvas.SetTop(text,200);
-
-            drawAria.Children.Add(text);
-        }
 
 
 
@@ -245,6 +272,9 @@ namespace testrect
         private DispatcherTimer Timer;
         double seconds;
         private bool ststop = false;
+        public static Storyboard sb = new Storyboard();
+        
+        
         //private bool seekclick=false;
         
 
@@ -259,6 +289,7 @@ namespace testrect
 
         private void seekTimer_Tick(object sender, EventArgs e)
         {
+            
             if (media.NaturalDuration.HasTimeSpan)
             {
                 seconds = media.NaturalDuration.TimeSpan.TotalSeconds;
@@ -266,6 +297,30 @@ namespace testrect
             progressBar.Width = media.Position.TotalSeconds / seconds * 320;
             position.Text = media.Position.ToString();
         }
+
+        //現在のシークバーの場所へsyncを追加
+        private void addsync_Click(object sender, RoutedEventArgs e)
+        {
+            var i = 0;
+            var addsync = TimeSpan.Parse(position.Text); 
+
+            var image = new Image
+            {
+                Source = new BitmapImage(new Uri("../marker.png", UriKind.Relative)),
+                Margin = new Thickness(-10, 0, 0, 0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Height = 20,
+                Width = 20,
+                Tag = i
+            };
+
+            if (media.NaturalDuration.HasTimeSpan)
+            {
+                Canvas.SetLeft(image, addsync.TotalSeconds / media.NaturalDuration.TimeSpan.TotalSeconds * 320.0);
+                markers.Children.Add(image);
+            }
+        }
+
 
         //メディアが停止、一時停止状態だとバーの位置を動かしても画像が変わらない
 
@@ -279,64 +334,115 @@ namespace testrect
             //メディアの再生時間をバーの位置から取得
             media.Position = TimeSpan.FromSeconds(second);
 
-            if (ststop)
-            {
-                media.Play();
-                System.Threading.Thread.Sleep(200);
-                media.Pause();
-            }
-            //MediaData.sb.SeekAlignedToLastTick(media.Position);
-            //if (MediaData.sb.GetCurrentState() == ClockState.Stopped)
+            MediaTimeline time = new MediaTimeline(media.Source);
+            Storyboard.SetTargetName(time, media.Name);
+            
+
+            sb.SeekAlignedToLastTick(media.Position);
+            //if (sb.GetCurrentState() == ClockState.Stopped)
             //{
-            //    MediaData.sb.Begin();
-            //    MediaData.sb.Pause();
+            //sb.Begin();
+            //sb.Pause();
             //}
         }
 
-        //private void progressBarBg_MouseMove(object sender, MouseEventArgs e)
-        //{
+        private void media_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            //var i = 0;
+            //foreach (var value in MediaData.media[movie_index].sync)
+            //{
 
-        //        //バーの位置を取得
-        //        var position = e.GetPosition(progressBarBg);
-        //        var second = media.NaturalDuration.TimeSpan.TotalSeconds * (position.X / progressBarBg.Width);
+            //}
+        }
 
-        //        //メディアの再生時間をバーの位置から取得
-        //        media.Position = TimeSpan.FromSeconds(second);
-            
-        //}
-
-        //private void progressBarBg_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    seekclick = false;
-        //}
-
-        //private void progressBarBg_MouseLeave(object sender, MouseEventArgs e)
-        //{
-        //    seekclick = false;
-        //}
 
 
 
         //再生関連
         public string filename;
+        public Uri video;
+        public bool syncset = false;
 
-        private void play_Click(object sender, RoutedEventArgs e)
+        private void playmedia()
         {
             media.Play();
         }
 
+        //メディアの再生
+        private void play_Click(object sender, RoutedEventArgs e)
+        {           
+            media.Play();
+            Uri video = media.Source;
+
+            //System.IO.StreamReader sr = new System.IO.StreamReader(@"C:\Users\matuyosi\Desktop\ヴァージョン\trunk\Authoring\Authoring\Butterfly.json");
+            //var j = JsonValue.Load(sr) as JsonValue;
+            //List<TimeSpan> sync = new List<TimeSpan>();
+
+            
+            var sync2 = TimeSpan.Parse("00:00:05.001");
+            var sync1 = TimeSpan.Parse("00:00:01.001");
+            var i = 0;
+
+            //foreach (var value in (JsonArray)j["sync"])
+            //{
+            //    sync.Add(TimeSpan.Parse(value));
+            //}
+
+            var image1 = new Image
+            {
+                Source = new BitmapImage(new Uri("../marker.png", UriKind.Relative)),
+                Margin = new Thickness(-10, 0, 0, 0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Height = 20,
+                Width = 20,
+                Tag = i
+            };
+
+            var image2 = new Image
+            {
+                Source = new BitmapImage(new Uri("../marker.png", UriKind.Relative)),
+                Margin = new Thickness(-10, 0, 0, 0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Height = 20,
+                Width = 20,
+                Tag = i
+            };
+
+            if (media.NaturalDuration.HasTimeSpan)
+            {
+                if (!syncset)
+                {
+                    Canvas.SetLeft(image1, sync1.TotalSeconds / media.NaturalDuration.TimeSpan.TotalSeconds * 320.0);
+                    markers.Children.Add(image1);
+
+                    Canvas.SetLeft(image2, sync2.TotalSeconds / media.NaturalDuration.TimeSpan.TotalSeconds * 320.0);
+                    markers.Children.Add(image2);
+                    //foreach (var value in sync)
+                    //{
+                    //    Canvas.SetLeft(image, value.TotalSeconds / media.NaturalDuration.TimeSpan.TotalSeconds * 320.0);
+                    //    markers.Children.Add(image);
+                    //}
+                    syncset = true;
+                }
+            }
+        }
+
+        //メディアの停止
         private void stop_Click(object sender, RoutedEventArgs e)
         {
             media.Stop();
             ststop = true;
         }
 
+        //メディアの一時停止
         private void pause_Click(object sender, RoutedEventArgs e)
         {
             media.Pause();
             ststop = true;
+            sb.Pause();
         }
 
+        //動画群の入っているフォルダを指定
         private void fileopen_Click(object sender, RoutedEventArgs e)
         {
             string stPrompt = string.Empty;
@@ -381,6 +487,67 @@ namespace testrect
 
             //media.Source=new(Uri)filename;
         }
+
+        //撮影動画が保存されているフォルダから動画ファイルを選択し、Sourceに関連付ける
+        //関連付けが上手くできていないのかまだ動かない
+        private void videolist_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string s = Properties.Settings.Default.defaultname+(string)videolist.SelectedItem;
+            video = new Uri(s);
+            media.Source = video;
+            playmedia();
+        }
+
+
+        //演出を全て削除
+        private void drawclear_Click(object sender, RoutedEventArgs e)
+        {
+            drawAria.Children.Clear();
+        }
+
+        //jsonファイルの書き出し
+        private void jout_Click(object sender, RoutedEventArgs e)
+        {
+            double wi = Math.Abs(recxen - recxst);
+            double he = Math.Abs(recyen - recyst);
+            var jsonFileName = "Butterfly.json";
+
+
+
+            var outputjson = "{";
+
+            //同期ポイント書き込み
+            outputjson += "\"sync\" : [";
+            outputjson += "\"00:00:01\",";
+            outputjson += "\"00:00:03\"],";
+ 
+            //演出：四角書き込み
+            outputjson += "\"rectangle\" : [ "+"\n";
+            outputjson +="{"+"\n";
+            outputjson += "\"height\" : \""+ wi +"\",";
+            outputjson += "\"width\" : \"" + he + "\",";
+            outputjson += "\"color\" : \"red\",";
+            outputjson += "\"margin_x\" : \""+recxst+"\",";
+            outputjson += "\"margin_y\" : \"" + recyst + "\",";
+            outputjson += "}" + "\n";
+            outputjson += "]";
+
+            //演出：文字書き込み
+            outputjson += "\"text\" : [ " + "\n";
+            outputjson += "{" + "\n";
+            outputjson += "\"text\" : \"" + ss + "\",";
+            outputjson += "\"color\" : \"red\",";
+            outputjson += "\"margin_x\" : \"" + senxst + "\",";
+            outputjson += "\"margin_y\" : \"" + senyst + "\",";
+            outputjson += "}" + "\n";
+            outputjson += "]";
+            
+            using (var fileJson = new StreamWriter(path + "\\" + jsonFileName))
+            {
+                fileJson.Write(outputjson);
+            }
+        }
+
 
 
     }
