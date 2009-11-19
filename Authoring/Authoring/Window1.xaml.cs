@@ -370,7 +370,7 @@ namespace testrect
 
         //メディアの再生
         private void play_Click(object sender, RoutedEventArgs e)
-        {           
+        {
             media.Play();
             Uri video = media.Source;
 
