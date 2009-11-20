@@ -44,6 +44,7 @@
                        MouseLeftButtonUp="progressBarBg_MouseLeftButtonUp"
                        MouseLeave="progressBarBg_MouseLeave"/>-->
             <Canvas x:Name="markers" Height="20"  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
+            <Rectangle x:Name="markersdraw" Height="20" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Opacity="0"/>
         </Grid>
         <!--<TextBlock Background="Yellow" Margin="0,411,141,14" Name="endleft" HorizontalAlignment="Right" Width="60" />
         <TextBlock Background="Yellow" Height="30" HorizontalAlignment="Right" Margin="0,0,75,14" Name="endtop" VerticalAlignment="Bottom" Width="60" />-->

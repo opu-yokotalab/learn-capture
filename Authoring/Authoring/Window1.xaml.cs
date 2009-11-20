@@ -56,6 +56,9 @@ namespace testrect
                     }
                 }
             }
+
+            media.Play();
+            media.Pause();
         }
 
 
@@ -331,19 +334,19 @@ namespace testrect
             var position = e.GetPosition(progressBarBg);
             var second = media.NaturalDuration.TimeSpan.TotalSeconds * (position.X / progressBarBg.Width);
 
+            
             //メディアの再生時間をバーの位置から取得
             media.Position = TimeSpan.FromSeconds(second);
-
-            MediaTimeline time = new MediaTimeline(media.Source);
-            Storyboard.SetTargetName(time, media.Name);
-            
+            //sb.Seek(TimeSpan.FromSeconds(second));
 
             sb.SeekAlignedToLastTick(media.Position);
+            
             //if (sb.GetCurrentState() == ClockState.Stopped)
-            //{
-            //sb.Begin();
-            //sb.Pause();
-            //}
+            if(ststop)
+            {
+                sb.Begin();
+                sb.Pause();
+            }
         }
 
         private void media_MediaOpened(object sender, RoutedEventArgs e)
@@ -425,12 +428,19 @@ namespace testrect
                     syncset = true;
                 }
             }
+
+            MediaTimeline mediatimeline =new MediaTimeline(media.Source);
+            Storyboard.SetTargetName(mediatimeline, media.Name);
+
+            sb.Children.Add(mediatimeline);
+            sb.Begin(this,true);
         }
 
         //メディアの停止
         private void stop_Click(object sender, RoutedEventArgs e)
         {
-            media.Stop();
+            sb.Stop(this);
+            media.Stop();            
             ststop = true;
         }
 
@@ -439,7 +449,7 @@ namespace testrect
         {
             media.Pause();
             ststop = true;
-            sb.Pause();
+            sb.Pause(this);
         }
 
         //動画群の入っているフォルダを指定
@@ -480,7 +490,7 @@ namespace testrect
 
             Properties.Settings.Default.Save();
 
-            //ファイルを開くの方
+            //ファイルを直接開く方
             //System.Windows.Forms.OpenFileDialog open = new System.Windows.Forms.OpenFileDialog();
             //open.Filter = "動画ファイル(*.wmv)|*.wmv";
             //filename = open.FileName;
@@ -506,15 +516,28 @@ namespace testrect
         }
 
         //jsonファイルの書き出し
+        //オーサリング内容を反映させる
+        //現段階では文字と□の位置情報のみ
         private void jout_Click(object sender, RoutedEventArgs e)
         {
             double wi = Math.Abs(recxen - recxst);
             double he = Math.Abs(recyen - recyst);
             var jsonFileName = "Butterfly.json";
 
+           
+            var outputjson = "{\n";
+
+            //動画群の名前
+            outputjson += "\"tag\" : \"" + "Butterfly" + ".wmv" + "\",\n";
+
+            //動画群の個々の名前、視点、演出
+            //まだ個々には出来ていない
+            outputjson += "\"video\" : ";
 
 
-            var outputjson = "{";
+            outputjson += "\"url\" : [\"" + "Butterfly" + ".wmv" + "\"],\n";
+            outputjson += "\"viewpoint\" : [\"" + "正面" + "\"],\n";
+
 
             //同期ポイント書き込み
             outputjson += "\"sync\" : [";
@@ -530,7 +553,7 @@ namespace testrect
             outputjson += "\"margin_x\" : \""+recxst+"\",";
             outputjson += "\"margin_y\" : \"" + recyst + "\",";
             outputjson += "}" + "\n";
-            outputjson += "]";
+            outputjson += "],";
 
             //演出：文字書き込み
             outputjson += "\"text\" : [ " + "\n";
@@ -541,6 +564,8 @@ namespace testrect
             outputjson += "\"margin_y\" : \"" + senyst + "\",";
             outputjson += "}" + "\n";
             outputjson += "]";
+
+            outputjson += "}";
             
             using (var fileJson = new StreamWriter(path + "\\" + jsonFileName))
             {
