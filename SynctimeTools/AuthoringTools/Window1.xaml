@@ -30,7 +30,7 @@
         <Button x:Name="stopButton" Grid.Column="2" Grid.Row="2"
             Content="撮影終了" Click="stopButton_Click" FontSize="15" />
         <TextBox x:Name="rename" Grid.Column="2" Grid.ColumnSpan="2" FontSize="15" TextChanged="rename_TextChanged" Height="20" VerticalAlignment="Top" Margin="0,2.157,0,0" Grid.RowSpan="2" />
-        <ListBox Grid.Column="3" Grid.Row="1" x:Name="namelist" SelectionChanged="namelist_SelectionChanged" SelectedIndex="0" FontSize="14">
+        <ListBox Grid.Column="3" Grid.Row="1" x:Name="namelist" SelectionChanged="namelist_SelectionChanged" SelectedIndex="0" FontSize="14" Margin="0,0,0,0.13" Grid.RowSpan="2">
             <!--こういう追加の仕方もある
             <ListBoxItem>生徒A</ListBoxItem>
             <ListBoxItem>生徒B</ListBoxItem>

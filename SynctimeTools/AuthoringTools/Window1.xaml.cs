@@ -141,8 +141,7 @@ namespace AuthoringTools
                 }
                 else
                 {
-                    shoot();
-                    return;
+                    shoot();                    
                 }
 
 
@@ -193,6 +192,7 @@ namespace AuthoringTools
             object wait = 0;
 
             //Ctrl+Shift+F12を送る
+            //他と接続されていたらそれにも送る
             shell.SendKeys("^+{F12}", ref wait);
             if (st != null)
             {
@@ -209,10 +209,6 @@ namespace AuthoringTools
                     Byte[] sendBytes = Encoding.UTF8.GetBytes("撮影終了");
                     st2.Write(sendBytes, 0, sendBytes.Length);
                 }
-            }
-            else
-            {
-                return;
             }
 
 
@@ -296,12 +292,12 @@ namespace AuthoringTools
             //注：この名前空間、クラス、およびメンバは、.NET Framework Version 1.1 だけでサポートされています
             path = opener.SelectedPath;
 
-            //設定ファイルを書き換え
+            //設定ファイルを書き換え：撮影動画を入れるフォルダ
             Properties.Settings.Default.defaultname = path;
             Properties.Settings.Default.Save();
         }
 
-        
+        //リストから選ばれた名前で撮影待機
         private void rename_TextChanged(object sender, TextChangedEventArgs e)
         {
             rename.Text=s+num+"の撮影待機中";
