@@ -72,6 +72,31 @@ namespace AuthoringTools
             //動画ファイルを保存するフォルダを設定ファイルから読み込む
             path = Properties.Settings.Default.defaultname;
 
+            //被撮影者の名前一覧を取得
+            //動画ファイルを保存するフォルダからname.txtを読み出す
+            string sn = path+"\\name.txt";
+            if (System.IO.File.Exists(sn))
+            {
+                System.IO.StreamReader sr = new System.IO.StreamReader(sn, System.Text.Encoding.GetEncoding(932));
+                while (sr.Peek() > -1)
+                {
+                    namelist.Items.Add(sr.ReadLine());                    
+                }
+            }
+            else
+            {
+                //初回起動は何もしない
+                if (Properties.Settings.Default.defaultname == "default")
+                {
+                    return;
+                }
+                else
+                {
+                    System.IO.File.Create(sn);
+                }
+            }
+
+
             //動画を保存するフォルダ名を表示(表示が大きくなりすぎる)
             //fileName.Text=path;
         }
@@ -123,8 +148,9 @@ namespace AuthoringTools
                 {
                     if (st.CanWrite)
                     {
-                        
+
                         Byte[] sendBytes = Encoding.UTF8.GetBytes("撮影開始");
+                        //Byte[] sendBytes = Encoding.UTF8.GetBytes(s + num);
                         st.Write(sendBytes, 0, sendBytes.Length);
                         shoot();
                     }
@@ -133,15 +159,16 @@ namespace AuthoringTools
                 {
                     if (st2.CanWrite)
                     {
-                        
+
                         Byte[] sendBytes = Encoding.UTF8.GetBytes("撮影開始");
+                        //Byte[] sendBytes = Encoding.UTF8.GetBytes(s+num);
                         st2.Write(sendBytes, 0, sendBytes.Length);
                         shoot();
                     }
                 }
                 else
                 {
-                    shoot();                    
+                    shoot();
                 }
 
 
@@ -295,6 +322,20 @@ namespace AuthoringTools
             //設定ファイルを書き換え：撮影動画を入れるフォルダ
             Properties.Settings.Default.defaultname = path;
             Properties.Settings.Default.Save();
+
+            string sn = path + "\\name.txt";
+            if (System.IO.File.Exists(sn))
+            {
+                System.IO.StreamReader sr = new System.IO.StreamReader(sn, System.Text.Encoding.GetEncoding(932));
+                while (sr.Peek() > -1)
+                {
+                    namelist.Items.Add(sr.ReadLine());
+                }
+            }
+            else
+            {
+                System.IO.File.Create(sn);
+            }
         }
 
         //リストから選ばれた名前で撮影待機
