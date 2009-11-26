@@ -6,18 +6,18 @@
     <!--下に書くほど手前に表示される-->
     <Grid>
         <TextBlock x:Name="position" Text="00:00:00" Margin="39,0,0,122" Height="14" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="99" />
-        <MediaElement x:Name="media" Source="C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\Butterfly.wmv" 
+        <MediaElement x:Name="media" Width="320" Height="240" Source="C:\Users\matuyosi\Documents\Visual Studio 2008\Projects\Authoring\Authoring\Butterfly.wmv" 
                       Margin="39,30,19,186" MediaOpened="media_MediaOpened" LoadedBehavior="Manual" Storyboard.TargetName="sb"/>
-        <Canvas x:Name="drawAria" Margin="39,30,19,186"></Canvas>
+        <Canvas x:Name="drawAria" Width="320" Height="240" Margin="39,30,19,186"></Canvas>
         <!--<TextBlock x:Name="strleft" Background="Yellow" Width="60" Height="30" HorizontalAlignment="Left" Margin="35,0,0,14" VerticalAlignment="Bottom"/>
         <TextBlock x:Name="strtop" Background="Yellow" Width="60" Height="30" HorizontalAlignment="Left" Margin="101,0,0,14" VerticalAlignment="Bottom" />-->
-        <Button Content="再生" x:Name="play"  Height="30" Margin="39,0,0,86" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="48" Click="play_Click" />
-        <Button Content="停止" x:Name="stop"  Height="30" Margin="93,0,0,86"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="39.667" Click="stop_Click" />
-        <Button Content="一時停止" x:Name="pause" Height="30" Margin="138,0,185,86"  VerticalAlignment="Bottom" Click="pause_Click" />
+        <Button Content="再生" x:Name="play"  Height="30" Margin="12,0,0,85.547" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="48" Click="play_Click" />
+        <Button Content="停止" x:Name="stop"  Height="30" Margin="66.66,0,0,86.658"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="39.667" Click="stop_Click" />
+        <Button Content="一時停止" x:Name="pause" Height="30" Margin="0,0,211.09,85.547"  VerticalAlignment="Bottom" Click="pause_Click" HorizontalAlignment="Right" Width="55" />
 
 
 
-        <Rectangle Margin="39,30,19,186" x:Name="rect" Stroke="Black" Fill="Black"
+        <Rectangle Margin="39,30,19,186" x:Name="rect" Width="320" Height="240" Stroke="Black" Fill="Black"
                    Opacity="0"
                    MouseLeftButtonDown="rect_MouseLeftButtonDown" MouseLeftButtonUp="rect_MouseLeftButtonUp"
                    MouseMove="rect_MouseMove" MouseLeave="rect_MouseLeave"/>
@@ -48,19 +48,28 @@
         </Grid>
         <!--<TextBlock Background="Yellow" Margin="0,411,141,14" Name="endleft" HorizontalAlignment="Right" Width="60" />
         <TextBlock Background="Yellow" Height="30" HorizontalAlignment="Right" Margin="0,0,75,14" Name="endtop" VerticalAlignment="Bottom" Width="60" />-->
-        <RadioButton x:Name="rectdraw" Height="18" Content="□" FontSize="15" HorizontalAlignment="Right" Margin="0,0,10,98"  VerticalAlignment="Bottom" Width="70" Checked="rectdraw_Checked" />
-        <RadioButton x:Name="textdraw" Content="文字" FontSize="15" HorizontalAlignment="Right" Margin="0,0,9,78" Width="71" Checked="textdraw_Checked" Height="14" VerticalAlignment="Bottom" />
         <Button Height="29" x:Name="fileopen" Content="開く" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="53" Click="fileopen_Click" />
         <TextBlock Height="29" Margin="60,1,162,0" Name="textBlock2" VerticalAlignment="Top" />
         <TextBox x:Name="info" Margin="59,1,177,0" Height="23" VerticalAlignment="Top" />
         <ComboBox x:Name="videolist" Text="再生動画" Height="23" HorizontalAlignment="Right" Margin="0,1,12,0" VerticalAlignment="Top" Width="161" SelectionChanged="videolist_SelectionChanged" />
-        <TextBox x:Name="letter" Height="25" HorizontalAlignment="Right" Margin="0,0,1,47" VerticalAlignment="Bottom" Width="79" FontSize="14" />
-        <Button x:Name="drawclear" Content="clean" Height="30" HorizontalAlignment="Right" Margin="0,0,131,86"  VerticalAlignment="Bottom" Width="48" FontSize="15" Click="drawclear_Click" />
-        <Button Height="28.924" Content="out" x:Name="jout"  HorizontalAlignment="Right" Margin="0,0,86,87.076" VerticalAlignment="Bottom" Width="39" Click="jout_Click" />
-        <TextBlock Text="書きこむ文字" Height="17" HorizontalAlignment="Right" Margin="0,0,86,52" Name="textBlock1" VerticalAlignment="Bottom" Width="74" FontSize="14" />
-        <TextBox x:Name="fontsize" Text="14" Height="25" HorizontalAlignment="Right" Margin="0,0,1,16" VerticalAlignment="Bottom" Width="79" FontSize="14" />
-        <TextBlock  FontSize="14" Height="17" HorizontalAlignment="Right" Margin="0,0,86,22.717" Name="textBlock3" Text="フォントサイズ" VerticalAlignment="Bottom" Width="74" />
-        <Button x:Name="addsync" Content="追加" Height="32.219" Margin="93,0,0,36.781" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="39.667" Click="addsync_Click" />
-        <Button x:Name="delsync" Content="削除" Height="32.101" Margin="0,0,200.569,36.781" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="39.667" />
+        <TextBox x:Name="letter" Height="25" HorizontalAlignment="Right" Margin="0,0,108.878,46.662" VerticalAlignment="Bottom" Width="79" FontSize="14" />
+        <Button x:Name="drawclear" Content="clean" Height="26.667" HorizontalAlignment="Left" Margin="66.66,0,0,15.554"  VerticalAlignment="Bottom" Width="39.996" FontSize="15" Click="drawclear_Click" />
+        <Button Height="28.924" Content="out" x:Name="jout"  HorizontalAlignment="Left" Margin="14,0,0,13.332" VerticalAlignment="Bottom" Width="39" Click="jout_Click" />
+        <TextBlock Text="書きこむ文字" Height="17" Margin="116.655,0,186.648,53.328" Name="textBlock1" VerticalAlignment="Bottom" FontSize="14" />
+        <TextBox x:Name="fontsize" Text="14" Height="25" HorizontalAlignment="Right" Margin="0,0,107.767,15.554" VerticalAlignment="Bottom" Width="79" FontSize="14" />
+        <TextBlock  FontSize="14" Height="17" Margin="117.797,0,186.203,23.331" Name="textBlock3" Text="フォントサイズ" VerticalAlignment="Bottom" />
+        <Button x:Name="addsync" Content="追加" Height="32.219" Margin="12,0,0,47.773" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="48" Click="addsync_Click" />
+        <Button x:Name="delsync" Content="削除" Height="32.101" Margin="65.549,0,0,47.773" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="39.667" Click="delsync_Click" />
+        <TextBox x:Name="distart" Height="23.331" HorizontalAlignment="Right" Margin="0,0,1.111,66.66" VerticalAlignment="Bottom" Width="102.773" />
+        <TextBox x:Name="diend" Height="23.331" HorizontalAlignment="Right" Margin="0,0,1.111,16.665" VerticalAlignment="Bottom" Width="101.101" />
+        <RadioButton x:Name="sttime" FontSize="14" Checked="sttime_Checked" Content="開始時刻" Height="16" HorizontalAlignment="Right" Margin="0,0,22.22,96.657" VerticalAlignment="Bottom" Width="82.101"/>
+        <RadioButton Height="16" x:Name="edtime" FontSize="14" Content="終了時刻" HorizontalAlignment="Right" Margin="0,0,17.776,44.44" VerticalAlignment="Bottom" Width="84.323" Checked="edtime_Checked" />
+        <Button x:Name="recdir" HorizontalAlignment="Left" Margin="112.211,0,0,-4.444" Width="44.44" Height="22.821" VerticalAlignment="Bottom">rec</Button>
+        <GroupBox Header="作成演出" Height="69.993" Margin="0,0,111.1,69.993" Name="groupBox1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75.548">
+            <Grid>
+                <RadioButton x:Name="rectdraw" Content="□" FontSize="15" Margin="0,9.996,12,23.997" Checked="rectdraw_Checked" />
+                <RadioButton x:Name="textdraw" Content="文字" FontSize="15" Margin="0,0,12,3.333" Checked="textdraw_Checked" Height="14.219" VerticalAlignment="Bottom" />
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>

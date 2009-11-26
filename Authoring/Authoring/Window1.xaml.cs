@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 //追加分
 using System.Windows.Ink;
 using System.Windows.Media.Animation;
+using System.ServiceModel.Web;
 using System.Windows.Threading;
 using System.IO;
 using System.Json;
@@ -65,6 +66,31 @@ namespace testrect
         ///
         //演出の作成
         ///
+
+        //四角演出の値
+        public struct addrectangle
+        {
+            public double height;
+            public double width;
+            public double releft;
+            public double retop;
+            public string rest;
+            public string reed;
+        }
+
+        //文字演出の値
+        public struct addsentence
+        {
+            public string sentence;
+            public double seleft;
+            public double setop;
+            public string sest;
+            public string seed;
+        }
+
+        //演出の開始時刻と終了時刻
+        public string st;
+        public string ed;
 
         public double wi;
         public double he;
@@ -237,6 +263,8 @@ namespace testrect
             return rectangle;
         }
 
+
+
         private void whset(double x,double y)
         {
             wi = x;
@@ -340,13 +368,23 @@ namespace testrect
             //sb.Seek(TimeSpan.FromSeconds(second));
 
             sb.SeekAlignedToLastTick(media.Position);
-            
-            //if (sb.GetCurrentState() == ClockState.Stopped)
-            if(ststop)
+
+            switch (ditime)
             {
-                sb.Begin();
-                sb.Pause();
+                case (dimode.start):
+                    distart.Text = media.Position.ToString();
+                    break;
+                case (dimode.end):
+                    diend.Text = media.Position.ToString();
+                    break;
             }
+
+            //if (sb.GetCurrentState() == ClockState.Stopped)
+            //if(ststop)
+            //{
+            //    sb.Begin();
+            //    sb.Pause();
+            //}
         }
 
         private void media_MediaOpened(object sender, RoutedEventArgs e)
@@ -377,19 +415,19 @@ namespace testrect
             media.Play();
             Uri video = media.Source;
 
-            //System.IO.StreamReader sr = new System.IO.StreamReader(@"C:\Users\matuyosi\Desktop\ヴァージョン\trunk\Authoring\Authoring\Butterfly.json");
+            System.IO.StreamReader sr = new System.IO.StreamReader(@"C:\Users\matuyosi\Desktop\ヴァージョン\trunk\Authoring\Authoring\Butterfly.json");
+
             //var j = JsonValue.Load(sr) as JsonValue;
             //List<TimeSpan> sync = new List<TimeSpan>();
-
-            
-            var sync2 = TimeSpan.Parse("00:00:05.001");
-            var sync1 = TimeSpan.Parse("00:00:01.001");
-            var i = 0;
 
             //foreach (var value in (JsonArray)j["sync"])
             //{
             //    sync.Add(TimeSpan.Parse(value));
             //}
+
+            var sync2 = TimeSpan.Parse("00:00:05.001");
+            var sync1 = TimeSpan.Parse("00:00:01.001");
+            var i = 0;
 
             var image1 = new Image
             {
@@ -433,14 +471,14 @@ namespace testrect
             Storyboard.SetTargetName(mediatimeline, media.Name);
 
             sb.Children.Add(mediatimeline);
-            sb.Begin(this,true);
+            //sb.Begin(this,true);
         }
 
         //メディアの停止
         private void stop_Click(object sender, RoutedEventArgs e)
         {
-            sb.Stop(this);
-            media.Stop();            
+            //sb.Stop(this);
+            media.Stop();
             ststop = true;
         }
 
@@ -449,7 +487,7 @@ namespace testrect
         {
             media.Pause();
             ststop = true;
-            sb.Pause(this);
+            //sb.Pause(this);
         }
 
         //動画群の入っているフォルダを指定
@@ -466,7 +504,7 @@ namespace testrect
             path = opener.SelectedPath;
             var dirinfo = new DirectoryInfo(path);
 
-            foreach (var value in dirinfo.GetFiles("*.wmv"))
+            foreach (var value in dirinfo.GetFiles("*.json"))
             {
                 stPrompt += value.Name + System.Environment.NewLine;
                 
@@ -573,7 +611,27 @@ namespace testrect
             }
         }
 
+        private void delsync_Click(object sender, RoutedEventArgs e)
+        {
+            markers.Children.Clear();
+        }
 
+        public dimode ditime;
+        public enum dimode
+        {
+            start,
+            end
+        }
+        
+        //開始時刻にチェック時；演出の開始時刻を取得
+        private void sttime_Checked(object sender, RoutedEventArgs e)
+        {
+            ditime = dimode.start;
+        }
 
+        private void edtime_Checked(object sender, RoutedEventArgs e)
+        {
+            ditime = dimode.end;
+        }
     }
 }

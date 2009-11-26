@@ -36,3 +36,5 @@ C:\Users\matuyosi\Desktop\ヴァージョン\trunk\Authoring\Authoring\bin\Debug
 C:\Users\matuyosi\Desktop\ヴァージョン\trunk\Authoring\Authoring\bin\Debug\ko\System.Json.resources.dll
 C:\Users\matuyosi\Desktop\ヴァージョン\trunk\Authoring\Authoring\bin\Debug\zh-Hans\System.Json.resources.dll
 C:\Users\matuyosi\Desktop\ヴァージョン\trunk\Authoring\Authoring\bin\Debug\zh-Hant\System.Json.resources.dll
+C:\Users\matuyosi\Desktop\ヴァージョン\trunk\Authoring\Authoring\bin\Debug\WPFToolkit.dll
+C:\Users\matuyosi\Desktop\ヴァージョン\trunk\Authoring\Authoring\bin\Debug\WPFToolkit.pdb
