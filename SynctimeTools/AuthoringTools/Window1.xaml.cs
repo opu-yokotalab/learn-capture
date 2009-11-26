@@ -37,12 +37,15 @@ namespace AuthoringTools
 
         //フォルダパス(撮影時にファイルが作成されるフォルダ)
         public string path;
+        public string sn;
         
         //撮影時、ファイル名後の連番
         int num=1;
         public string lastName = "";
         //リストボックスから選ばれた名前
         public string s;
+
+        public int selectedindex;
         
 
         public Window1()
@@ -56,9 +59,9 @@ namespace AuthoringTools
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            namelist.Items.Add("生徒Ａ");
-            namelist.Items.Add("生徒Ｂ");
-            namelist.Items.Add("生徒Ｃ");
+            //namelist.Items.Add("生徒Ａ");
+            //namelist.Items.Add("生徒Ｂ");
+            //namelist.Items.Add("生徒Ｃ");
 
             //実行時にDebutを同時起動：フルパスで指定（ここも設定ファイルにいれていいかも）
             System.Diagnostics.Process Debue = System.Diagnostics.Process.Start(@"C:\Program Files\NCH Software\Debut\debut.exe");
@@ -74,14 +77,20 @@ namespace AuthoringTools
 
             //被撮影者の名前一覧を取得
             //動画ファイルを保存するフォルダからname.txtを読み出す
-            string sn = path+"\\name.txt";
+            sn = path+"\\name.txt";
             if (System.IO.File.Exists(sn))
             {
                 System.IO.StreamReader sr = new System.IO.StreamReader(sn, System.Text.Encoding.GetEncoding(932));
+                //撮影者名のリストに追加
                 while (sr.Peek() > -1)
                 {
                     namelist.Items.Add(sr.ReadLine());                    
                 }
+                sr.Close();
+                //リストの書き出し
+                sr = new System.IO.StreamReader(sn, System.Text.Encoding.GetEncoding(932));
+                studentlist.Text = sr.ReadToEnd();
+                sr.Close();
             }
             else
             {
@@ -194,7 +203,7 @@ namespace AuthoringTools
                 rename.Text=s+num+"を撮影中";
 
                 //指定した時間だけ現在のスレッドを中断(撮影側の撮影開始を押してからのタイムラグ)
-                System.Threading.Thread.Sleep(1000); // 実測
+                System.Threading.Thread.Sleep(1300); // 実測
 
 
                 //時間の計測を開始
@@ -261,8 +270,8 @@ namespace AuthoringTools
 
             //現段階ではWMVで撮影することにしか対応していない
             //ほかの形式でも対応できるようにしたい
-            outputJson += "\"tag\" : \"" + rename.Text+".wmv" + "\",\n";
-            outputJson += "\"url\" : [\"" + rename.Text+".wmv" + "\"],\n";
+            outputJson += "\"tag\" : \"" + s+num +".wmv" + "\",\n";
+            outputJson += "\"url\" : [\"" + s+num +".wmv" + "\"],\n";
             outputJson += "\"viewpoint\" : [\"" + "正面" + "\"],\n";
             outputJson += "\"sync\" : [\n";
             foreach (var value in syncList)
@@ -341,7 +350,7 @@ namespace AuthoringTools
         //リストから選ばれた名前で撮影待機
         private void rename_TextChanged(object sender, TextChangedEventArgs e)
         {
-            rename.Text=s+num+"の撮影待機中";
+                rename.Text = s + num + "の撮影待機中";
         }
         
         //撮影するファイル名を選択
@@ -350,11 +359,16 @@ namespace AuthoringTools
             int i;
             num = 1;
 
-            s=namelist.SelectedItem.ToString();
-            i=s.IndexOf(':');
-            s = s.Substring(i + 1);
+            if (namelist.SelectedIndex != -1)
+            {
+                s = namelist.SelectedItem.ToString();
+                i = s.IndexOf(':');
+                s = s.Substring(i + 1);
 
-            rename.Text = s + num + "の撮影待機中";
+                rename.Text = s + num + "の撮影待機中";
+            }
+
+            selectedindex = namelist.SelectedIndex;
         }
 
 
@@ -377,6 +391,8 @@ namespace AuthoringTools
 
         public object wait = 0;
 
+        public bool caflg=true;
+
         private void accept_Click(object sender, RoutedEventArgs e)
         {
             // 接続待ちのスレッドを開始
@@ -384,12 +400,19 @@ namespace AuthoringTools
                     new Thread(new ThreadStart(ListenStart));
             // スレッドをスタート
             thread.Start();
+
             textBox2.Text = "接続待ち";
 
-        }
+            caflg = false;
 
+        }
+        
         private void cance_Click(object sender, RoutedEventArgs e)
         {
+            if (caflg)
+            {
+                return;
+            }
             // スレッド制御フラグを設定
             bAlive = false;
 
@@ -398,6 +421,8 @@ namespace AuthoringTools
 
             // スレッドを破棄
             thread = null;
+
+            caflg = true;
 
             textBox2.Text = "接続待ち中止";
 
@@ -461,5 +486,55 @@ namespace AuthoringTools
             shell.SendKeys("^+{F11}", ref wait);
         }
 
+        //生徒名を追加
+        private void addst_Click(object sender, RoutedEventArgs e)
+        {
+            if (studentname.Text == "")
+            {
+                return;
+            }
+
+            System.IO.StreamWriter sw = new System.IO.StreamWriter(sn,true, System.Text.Encoding.GetEncoding(932));
+
+            namelist.Items.Add(studentname.Text);
+            studentlist.Text += "\n"+studentname.Text;
+
+            sw.WriteLine(studentname.Text);
+            studentname.Text = "";
+
+            sw.Close();
+        }
+
+        //生徒名を削除:削除を外部ファイルに反映させるのがまだ
+        private void delst_Click(object sender, RoutedEventArgs e)
+        {
+            System.IO.StreamWriter sw = new System.IO.StreamWriter(sn, true, System.Text.Encoding.GetEncoding(932));
+
+            namelist.Items.RemoveAt(namelist.SelectedIndex);
+            rename.Text = "項目を選択してください";
+            
+
+        }
+
+        //接続待ち状態で閉じたときの対処
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if (!caflg)
+            {
+                // スレッド制御フラグを設定
+                bAlive = false;
+
+                // スレッド終了待ち
+                evt.WaitOne();
+
+                // スレッドを破棄
+                thread = null;
+            }
+            else
+            {
+                string s="ss";
+                return;
+            }
+        }
     }
 }
